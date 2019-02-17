@@ -1,6 +1,6 @@
 # \<polymer-pagination\>
 
-![Alt text](https://previews.dropbox.com/p/thumb/AAV9QFuYWRxJBIR3UM8SZaMhlD6Tw6pv3iMslqmtFnAdVyiurr776h6XWwS0JeUZD-jL8sorgaMfLqVMeMfE0trVWEijP_vd4WdA1LNQrNcbXxfxdEgHlqYTRQNsMGw7LvzWB8u48_RyHuoadMFtO0g_uNw7mlbTTujhp03owE0v6fqX-y6FYFsewHTvgwTKX897nI4dJpwIW2BZAdwMPXjTrwtWYdy6eu-6B8K8T9JGJ4lRnC62lfR2Bky7byhyRCQ/p.png?size_mode=5?raw=true "Title")
+![Alt text](https://previews.dropbox.com/p/thumb/AAV9QFuYWRxJBIR3UM8SZaMhlD6Tw6pv3iMslqmtFnAdVyiurr776h6XWwS0JeUZD-jL8sorgaMfLqVMeMfE0trVWEijP_vd4WdA1LNQrNcbXxfxdEgHlqYTRQNsMGw7LvzWB8u48_RyHuoadMFtO0g_uNw7mlbTTujhp03owE0v6fqX-y6FYFsewHTvgwTKX897nI4dJpwIW2BZAdwMPXjTrwtWYdy6eu-6B8K8T9JGJ4lRnC62lfR2Bky7byhyRCQ/p.png)
 
 ## Install the Polymer-CLI
 
