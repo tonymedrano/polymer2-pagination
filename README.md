@@ -1,6 +1,6 @@
 # \<polymer-pagination\>
 
-
+![Screenshot](screenshot.png)
 
 ## Install the Polymer-CLI
 
