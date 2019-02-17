@@ -1,6 +1,6 @@
 {
-  "name": "ing-istore-app-pagination",
-  "main": "ing-istore-app-pagination.html",
+  "name": "polymer-pagination",
+  "main": "polymer-pagination.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "paper-card": "PolymerElements/paper-card#^2.0.0",

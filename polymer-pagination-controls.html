@@ -1,15 +1,16 @@
 <!--
-Filename: /Users/tonymedrano/Desktop/ing-istore-app-pagination/ing-istore-app-pagination-controls.html
-Path: /Users/tonymedrano/Desktop/ing-istore-app-pagination
+Filename: /Users/tonymedrano/Desktop/polymer2-pagination/polymer-pagination-controls.html
+Path: /Users/tonymedrano/Desktop/polymer2-pagination
 Created Date: Thursday, February 14th 2019, 2:18:09 pm
 Author: tonymedrano
 
 Copyright (c) 2019 Tony A. Medrano
 -->
 
+
 <link rel="import" href="./bower_components/polymer/polymer-element.html">
 
-<dom-module id="ing-istore-app-pagination-controls">
+<dom-module id="polymer-pagination-controls">
   <template>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -80,17 +81,17 @@ Copyright (c) 2019 Tony A. Medrano
   </template>
   <script>
     /**
-     * `ing-istore-app-pagination-controls`
+     * `polymer-pagination-controls`
      * 
      *
      * @customElement
      * @polymer
      * @demo demo/index.html
      */
-    class IngIstoreAppPaginationControls extends Polymer.Element {
+    class PolymerPaginationControls extends Polymer.Element {
 
       static get is() {
-        return 'ing-istore-app-pagination-controls';
+        return 'polymer-pagination-controls';
       }
       static get properties() {
         return {
@@ -279,6 +280,6 @@ Copyright (c) 2019 Tony A. Medrano
 
     }
 
-    window.customElements.define(IngIstoreAppPaginationControls.is, IngIstoreAppPaginationControls);
+    window.customElements.define(PolymerPaginationControls.is, PolymerPaginationControls);
   </script>
 </dom-module>
