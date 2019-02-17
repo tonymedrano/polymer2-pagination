@@ -22,4 +22,4 @@ $ polymer serve
 $ polymer test
 ```
 
-Migration from a great React component pagination by Glad Chinda - [React Pagination](https://codesandbox.io/s/l29rokm9rm).
+Migration from a great React component pagination by Glad Chinda - [React Pagination Example](https://codesandbox.io/s/l29rokm9rm).
