@@ -1,0 +1,190 @@
+<!--
+Filename: /Users/tonymedrano/Desktop/ing-istore-app-pagination/ing-istore-app-pagination.html
+Path: /Users/tonymedrano/Desktop/ing-istore-app-pagination
+Created Date: Thursday, February 14th 2019, 3:59:09 pm
+Author: tonymedrano
+
+Copyright (c) 2019 Tony A. Medrano
+-->
+
+
+
+<link rel="import" href="./bower_components/polymer/polymer-element.html">
+<link rel="import" href="./ing-istore-app-pagination-controls.html">
+
+<dom-module id="ing-istore-app-pagination">
+  <template>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+      :host {
+        display: block;
+        padding-bottom: 0 !important;
+      }
+
+      .current-page {
+        font-size: 1.5rem;
+        vertical-align: middle;
+      }
+
+      .content {
+        border: 1px solid #eeeeee;
+        min-height: 242px;
+      }
+
+      p {
+        margin: 0;
+        margin-bottom: 0 !important;
+        padding: 12px;
+        width: 100%;
+      }
+
+      p:hover {
+        background: #eeeeee;
+        cursor: pointer;
+      }
+
+      h2, .text-secondary {
+        font-size: 18px!important;
+      }
+    </style>
+    <div class="container mb-5">
+      <div class="content">
+        <template is="dom-repeat" items="{{currentData}}" as="data">
+          <P>{{data.name.common}} - {{data.subregion}}</strong></P>
+        </template>
+      </div>
+      <div class="row d-flex flex-row">
+        <div class="w-100 px-4 d-flex flex-row flex-wrap align-items-center justify-content-between">
+          <div class="d-flex flex-row align-items-center">
+            <h2 id="dynamicStyle"><strong>{{totalData}}</strong> / Elements</h2>
+            <template is="dom-if" if="{{currentPage}}">
+              <span class="current-page d-inline-block h-100 pl-4 text-secondary">
+                Page <span class="font-weight-bold">{{currentPage}}</span> /
+                <span class="font-weight-bold">{{totalPages}}</span>
+              </span>
+            </template>
+          </div>
+          <div class="d-flex flex-row py-4 align-items-center">
+            <ing-istore-app-pagination-controls total-records="248" page-limit="6" page-neighbours="1">
+            </ing-istore-app-pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * `ing-istore-app-pagination`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class IngIstoreAppPagination extends Polymer.Element {
+      static get is() {
+        return 'ing-istore-app-pagination';
+      }
+      static get properties() {
+        return {
+          allData: {
+            type: Array,
+            notify: true,
+            value: () => [],
+          },
+          currentData: {
+            type: Array,
+            notify: true,
+            value: () => [],
+          },
+          currentPage: {
+            type: Number,
+            notify: true,
+            value: 0,
+          },
+          totalPages: {
+            type: Number,
+            notify: true,
+            value: 0,
+          },
+          totalData: {
+            type: Number,
+            notify: true
+          },
+          headerClass: {
+            type: String
+          }
+        };
+      }
+
+      /**
+       * Instance of the element is created/upgraded. Useful for initializing
+       * state, set up event listeners, create shadow dom.
+       * @constructor
+       */
+      constructor() {
+        super();
+        this.addEventListener('on-page-changed', this._onPageChanged);
+      }
+
+      /**
+       * Called every time the element is inserted into the DOM. Useful for 
+       * running setup code, such as fetching resources or rendering.
+       * Generally, you should try to delay work until this time.
+       */
+      connectedCallback() {
+        super.connectedCallback();
+
+        /** For testing purposes */
+        fetch('../Countries.json')
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            this.set('totalData', data.length);
+            this.set('allData', data);
+            this._setHeaderClass();
+          });
+      }
+
+      /**
+       * Called every time the element is removed from the DOM. Useful for 
+       * running clean up code (removing event listeners, etc.).
+       */
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener('on-page-changed');
+      }
+
+      _setHeaderClass() {
+        if (this.totalData === 0) return null;
+        this.$.dynamicStyle.setAttribute('class', `text-dark py-2 pr-4 m-0 ${this.currentPage ? 'border-gray border-right' : ''}`);
+      }
+
+      _onPageChanged(event) {
+        const {
+          currentPage,
+          totalPages,
+          pageLimit
+        } = event.detail.data;
+
+        const offset = (currentPage - 1) * pageLimit;
+        this.set('currentPage', currentPage);
+        this.set('totalPages', totalPages);
+
+        setTimeout(() => {
+          if (this.allData) {
+            const currentData = this.allData.slice(offset, offset + pageLimit);
+            this.set('currentData', currentData);
+          }
+        }, 200);
+
+      }
+
+    }
+
+    window.customElements.define(IngIstoreAppPagination.is, IngIstoreAppPagination);
+  </script>
+</dom-module>

@@ -1,0 +1,284 @@
+<!--
+Filename: /Users/tonymedrano/Desktop/ing-istore-app-pagination/ing-istore-app-pagination-controls.html
+Path: /Users/tonymedrano/Desktop/ing-istore-app-pagination
+Created Date: Thursday, February 14th 2019, 2:18:09 pm
+Author: tonymedrano
+
+Copyright (c) 2019 Tony A. Medrano
+-->
+
+<link rel="import" href="./bower_components/polymer/polymer-element.html">
+
+<dom-module id="ing-istore-app-pagination-controls">
+  <template>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+      :host {
+        display: block;
+      }
+
+      ul.pagination {
+        margin-top: 0;
+        margin-bottom: 0;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      ul.pagination li.page-item.active a.page-link {
+        color: #445565 !important;
+        background-color: #e3e7eb !important;
+        border-color: #ced4da !important;
+      }
+
+      ul.pagination a.page-link {
+        padding: 0.75rem 1rem;
+        min-width: 3.5rem;
+        text-align: center;
+        box-shadow: none !important;
+        border-color: #ced4da !important;
+        color: #6b88a4;
+        font-weight: 900;
+        font-size: 1rem;
+      }
+
+      ul.pagination a.page-link:hover {
+        background-color: #f4f4f4;
+      }
+    </style>
+    <template is="dom-if" if="{{_forTotalRecords()}}">
+      <template is="dom-if" if="{{_forTotalPages(pages)}}">
+        <nav aria-label="Elements Pagination">
+          <ul class="pagination">
+            <template is="dom-repeat" items="{{pages}}" as="page">
+              <template is="dom-if" if="{{_directionSelected(page, LEFT_PAGE)}}">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous" on-click="_handleMoveLeft">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+              </template>
+
+              <template is="dom-if" if="{{_directionSelected(page, RIGHT_PAGE)}}">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next" on-click="_handleMoveRight">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </template>
+              <template is="dom-if" if="{{_isNumber(page)}}">
+                <li class$="page-item {{_isActive(currentPage, page)}}">
+                  <a class="page-link" href="#" on-click="_handleClick" data-page$="[[page]]">{{page}}</a>
+                </li>
+              </template>
+            </template>
+          </ul>
+        </nav>
+      </template>
+    </template>
+  </template>
+  <script>
+    /**
+     * `ing-istore-app-pagination-controls`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class IngIstoreAppPaginationControls extends Polymer.Element {
+
+      static get is() {
+        return 'ing-istore-app-pagination-controls';
+      }
+      static get properties() {
+        return {
+          pages: {
+            type: Array,
+            notify: true,
+            value: () => [],
+          },
+          currentPage: {
+            type: Number,
+            notify: true,
+            value: 0,
+          },
+          totalRecords: {
+            type: Number,
+            notify: true,
+            value: 0,
+          },
+          totalPages: {
+            type: Number,
+            notify: true,
+            value: 0,
+          },
+          pageLimit: {
+            type: Number,
+            notify: true,
+            value: 30,
+          },
+          pageNeighbours: {
+            type: Number,
+            notify: true,
+            value: 0,
+          },
+          LEFT_PAGE: {
+            type: String,
+            value: 'LEFT',
+            readOnly: true,
+          },
+          RIGHT_PAGE: {
+            type: String,
+            value: 'RIGHT',
+            readOnly: true,
+          },
+        };
+      }
+
+      /**
+       * Called every time the element is inserted into the DOM. Useful for 
+       * running setup code, such as fetching resources or rendering.
+       * Generally, you should try to delay work until this time.
+       */
+      connectedCallback() {
+        super.connectedCallback();
+
+        this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
+        this.pages = this._fetchPageNumbers();
+        this.gotoPage(1);
+      }
+
+      /**
+       * Called every time the element is removed from the DOM. Useful for 
+       * running clean up code (removing event listeners, etc.).
+       */
+      disconnectedCallback() {
+        super.disconnectedCallback();
+      }
+
+      range(from, to, step = 1) {
+        let i = from;
+        const range = [];
+
+        while (i <= to) {
+          range.push(i);
+          i += step;
+        }
+
+        return range;
+      }
+
+      gotoPage(page) {
+        this.pages = this._fetchPageNumbers(); //. Updates numeric bar
+        const currentPage = Math.max(0, Math.min(page, this.totalPages));
+
+        console.log('current page: ', page, this.totalPages);
+
+        const data = {
+          currentPage,
+          totalPages: this.totalPages,
+          pageLimit: this.pageLimit,
+          totalRecords: this.totalRecords
+        };
+
+        this.set('currentPage', currentPage);
+
+        this.dispatchEvent(new CustomEvent('on-page-changed', {
+          detail: {
+            data
+          },
+          bubble: true,
+          composed: true
+        }));
+      }
+
+      _handleClick(evt) {
+        const page = evt.target.dataset.page;
+        this.gotoPage(page);
+        evt.stopPropagation();
+      }
+
+      _handleMoveLeft(evt) {
+        this.gotoPage(this.currentPage - this.pageNeighbours);
+        //  this.gotoPage(this.currentPage - this.pageNeighbours * 2 - 1);
+        evt.stopPropagation();
+      }
+
+      _handleMoveRight(evt) {
+        this.gotoPage(this.currentPage + this.pageNeighbours);
+        // this.gotoPage(this.currentPage + this.pageNeighbours * 2 + 1);
+        evt.stopPropagation();
+      }
+
+      _fetchPageNumbers() {
+        const totalPages = this.totalPages;
+        const currentPage = this.currentPage;
+        const pageNeighbours = this.pageNeighbours;
+
+        const totalNumbers = this.pageNeighbours * 2 + 3;
+        const totalBlocks = totalNumbers + 2;
+
+        if (totalPages > totalBlocks) {
+          let pages = [];
+
+          const leftBound = currentPage - pageNeighbours;
+          const rightBound = currentPage + pageNeighbours;
+          const beforeLastPage = totalPages - 1;
+
+          const startPage = leftBound > 2 ? leftBound : 2;
+          const endPage = rightBound < beforeLastPage ? rightBound : beforeLastPage;
+
+          pages = this.range(startPage, endPage);
+
+          const pagesCount = pages.length;
+          const singleSpillOffset = totalNumbers - pagesCount - 1;
+
+          const leftSpill = startPage > 2;
+          const rightSpill = endPage < beforeLastPage;
+
+          const leftSpillPage = this.LEFT_PAGE;
+          const rightSpillPage = this.RIGHT_PAGE;
+
+          if (leftSpill && !rightSpill) {
+            const extraPages = this.range(startPage - singleSpillOffset, startPage - 1);
+            pages = [leftSpillPage, ...extraPages, ...pages];
+          } else if (!leftSpill && rightSpill) {
+            const extraPages = this.range(endPage + 1, endPage + singleSpillOffset);
+            pages = [...pages, ...extraPages, rightSpillPage];
+          } else if (leftSpill && rightSpill) {
+            pages = [leftSpillPage, ...pages, rightSpillPage];
+          }
+
+          return [1, ...pages, totalPages];
+        }
+
+        return this.range(1, totalPages);
+      }
+
+      _directionSelected(selected, direction) {
+        return selected === direction;
+      }
+
+      _isActive(currentPage, page) {
+        return currentPage === page ? 'active' : '';
+      }
+
+      _forTotalRecords() {
+        return this.totalRecords > 0 ? true : false;
+      }
+
+      _forTotalPages(pages) {
+        return pages.length > 0 ? true : false;
+      }
+
+      _isNumber(page) {
+        return !isNaN(page);
+      }
+
+    }
+
+    window.customElements.define(IngIstoreAppPaginationControls.is, IngIstoreAppPaginationControls);
+  </script>
+</dom-module>
