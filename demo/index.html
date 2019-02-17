@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>ing-istore-app-pagination demo</title>
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+  <link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../bower_components/paper-card/paper-card.html">
+  <link rel="import" href="../ing-istore-app-pagination.html">
+
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .rate-image {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background-size: cover;
+      }
+
+      .rate-header {
+        @apply --paper-font-headline;
+      }
+
+      .rate-name {
+        color: var(--paper-grey-600);
+        margin: 10px 0;
+      }
+
+      paper-icon-button.rate-icon {
+        --iron-icon-fill-color: white;
+        --iron-icon-stroke-color: var(--paper-grey-600);
+      }
+    </style>
+  </custom-style>
+</head>
+
+<body>
+  <div class="vertical-section-container centered">
+    <h3>Basic ing-istore-app-pagination demo</h3>
+    <demo-snippet>
+      <template>
+        <ing-istore-app-pagination></ing-istore-app-pagination>
+      </template>
+    </demo-snippet>
+  </div>
+</body>
+
+</html>
