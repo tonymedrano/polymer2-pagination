@@ -1,6 +1,6 @@
 # \<polymer-pagination\>
 
-
+![Alt text](https://www.dropbox.com/home/A-dibujos?preview=polymer-pagination.png?raw=true "Title")
 
 ## Install the Polymer-CLI
 
