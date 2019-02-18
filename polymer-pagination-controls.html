@@ -12,17 +12,61 @@ Copyright (c) 2019 Tony A. Medrano
 
 <dom-module id="polymer-pagination-controls">
   <template>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <style>
       :host {
         display: block;
+        box-sizing: border-box;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      nav {
+        display: flex;
+        box-sizing: border-box;
+      }
+
+      .pagination {
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+        border-radius: .25rem;
+      }
+
+      .page-item {
+        box-sizing: border-box;
+      }
+
+      .page-item a {
+        color: #007bff;
+        text-decoration: none;
+        background-color: transparent;
+      }
+
+      .page-item.active .page-link {
+        z-index: 1;
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+
+      .page-link {
+        position: relative;
+        display: block;
+        padding: .5rem .75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: #007bff;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
       }
 
       ul.pagination {
         margin-top: 0;
         margin-bottom: 0;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0;
       }
 
       ul.pagination li.page-item.active a.page-link {
@@ -44,6 +88,62 @@ Copyright (c) 2019 Tony A. Medrano
 
       ul.pagination a.page-link:hover {
         background-color: #f4f4f4;
+      }
+
+      .pb-4,
+      .py-4 {
+        padding-bottom: 0 !important;
+      }
+
+      .pt-4,
+      .py-4 {
+        padding-top: 1.5rem !important;
+      }
+
+      .pl-4,
+      .px-4 {
+        padding-left: 1.5rem !important;
+      }
+
+      .pr-4,
+      .px-4 {
+        padding-right: 1.5rem !important;
+      }
+
+      .align-items-center {
+        -ms-flex-align: center !important;
+        align-items: center !important;
+      }
+
+      .flex-row {
+        -ms-flex-direction: row !important;
+        flex-direction: row !important;
+      }
+
+      .d-flex {
+        display: -ms-flexbox !important;
+        display: flex !important;
+      }
+
+      .flex-wrap {
+        -ms-flex-wrap: wrap !important;
+        flex-wrap: wrap !important;
+      }
+
+      .mb-5,
+      .my-5 {
+        /* margin-bottom: 3rem !important; */
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
     </style>
     <template is="dom-if" if="{{_forTotalRecords()}}">
